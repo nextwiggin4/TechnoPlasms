@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<style>
+  body {background-color:rgb(51,51,51); min-width: 980px;}
+  p    {color:white; font-family:Courier New}
+</style>
+
+</head>
+
+<body>
+
+	<p align="center" id="title"><span style='color:rgb(127,196,249)'>technoPlasms</span></br>test</p>
+	<div align="center">
+		<input align="center"type="button" id="scannerState" onclick="switchState()" value="scanner off">
+	</div>
+	<!--<p align="center" id="cords">cords</p>-->
+	<p align="center" id="demo"></p>
+
+
+	<script>
+		var scannerState = false;
+		var newTPsCreated = 0;
+		var technoPlasm = "Hello,World!";
+		var technoPlasmA = ["Hello,World!"];
+		var multiLine = ["Hello, World!","spanThis is a test","spanspantest","spanspan2test"];
+		//var helloWorldJava = ["class HelloWorldApp {","span public static void main(String[] args) {","spanspanSystem.out.println('Hello World!')","span}","}"];
+		var title = ["spantechnoPlasms"]
+		var numberOfColumns = 60;
+		var numberOfRows = 50;
+		var technoPlasmArray = [];
+		var spacingLines = 0;
+		var backgroundArray = [];
+		//var xCord = -25;
+		//var yCord = -7;
+		var frame = 0;
+		var allTechnoPlasmsPossible = [
+						{
+							"name":"helloWorldJava",
+							//the xCord,yCord show the current location of the first charecter. Can be anything
+							"xCord":2, 
+							"yCord":24, 
+							//the xDir,yDir keep track of the number of steps that the TP has taken at a given speed. Must be greater than 0
+							"xDir":0, 
+							"yDir":0, 
+							//the xSpeed,ySpeed detirmes the rate at which the TP takes a step in the dim. i.e. "ySpeed":4, means every forth frame it will take a step in the positive Y direticion.
+							"xSpeed":2, 
+							"ySpeed":4,
+							//calculated on the flie. SizeX is the length of the longest line from the origin. SizeY is the length of the array.
+							"sizeX":0,
+							"sizeY":0,
+							"codeText":["class HelloWorldApp {","span public static void main(String[] args) {","spanspanSystem.out.println('Hello World!')","span}","}"]
+						},
+						{
+							"name":"helloWorldC++",
+							"xCord":15, 
+							"yCord":35, 
+							"xDir":0, 
+							"yDir":0, 
+							"xSpeed":2, 
+							"ySpeed":4,
+							"sizeX":0,
+							"sizeY":0, 
+							"codeText":["int main()","{","spanstd::cout << 'Hello World!';","}"]
+						}
+
+					];
+
+		var allTechnoPlasms = [];//[allTechnoPlasmsPossible[0],/*allTechnoPlasmsPossible[1]*/];
+
+		function switchState(){
+			if (scannerState){
+				scannerState = false;
+				document.getElementById("scannerState").value = "scanner on";
+			} else {
+				scannerState = true;
+				document.getElementById("scannerState").value = "scanner off";
+			}
+		}
+
+		function makeRandomCode(){	
+
+    		var text = "";
+    		var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+
+    		for( var i=0; i < numberOfColumns /*(75+Math.floor(Math.random()*25))*/; i++ )
+        	text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+		    return text;
+		}
+
+		function makeRandomArray(){
+			var randomArray = []
+
+			for (i=0; i < numberOfRows; i++){
+				randomArray[randomArray.length] = makeRandomCode();
+			}
+
+			return randomArray;
+		}
+
+		function convertToHTML(randomArray){
+			var displayText = ""
+
+			for (i = 0; i < randomArray.length; i++){
+				displayText += randomArray[i] + "</br>";
+			}
+
+			return displayText;
+		}
+
+		function moveTP(index){
+			if(allTechnoPlasms[index].xDir <= 0){
+				allTechnoPlasms[index].xDir = Math.floor(Math.random() * 20)+10;
+				do{
+					allTechnoPlasms[index].xSpeed = Math.floor(Math.random() * 10)-5;
+				}
+				while (allTechnoPlasms[index].xSpeed == 0)
+			}
+			if(allTechnoPlasms[index].yDir <= 0){
+				allTechnoPlasms[index].yDir = Math.floor(Math.random() * 20)+10;
+				do{
+					allTechnoPlasms[index].ySpeed = Math.floor(Math.random() * 10)-5;
+				}
+				while (allTechnoPlasms[index].ySpeed == 0)
+			}
+			if(frame%Math.abs(allTechnoPlasms[index].xSpeed) == 0){
+				if(allTechnoPlasms[index].xSpeed > 0){
+					allTechnoPlasms[index].xCord++;
+				} else {
+					allTechnoPlasms[index].xCord--;
+				}
+				allTechnoPlasms[index].xDir--;
+			}
+			if(frame%Math.abs(allTechnoPlasms[index].ySpeed) == 0){
+				if(allTechnoPlasms[index].ySpeed > 0){
+					allTechnoPlasms[index].yCord++;
+				} else {
+					allTechnoPlasms[index].yCord--;
+				}
+				allTechnoPlasms[index].yDir--;
+			}		
+		}
+
+		function startLocation(sizeDim,frameDim){
+			var startDim = 0;
+
+			if(Math.floor(Math.random() * 2) == 0){
+				startDim = -1*sizeDim;
+			} else {
+				startDim = frameDim;
+			}
+
+			//alert(startDim);
+			return startDim;
+		}
+
+		function newTechnoPlasm(allTPPos){
+			var newTP = allTPPos[Math.floor(Math.random()*allTPPos.length)];
+
+			if(newTP.sizeY == 0){
+				newTP.sizeY = newTP.codeText.length;
+			}
+			if(newTP.sizeX == 0){
+				var maxLength = 0;
+				for(var i = 0;i < newTP.codeText.length; i++){
+					if(newTP.codeText[i].length>maxLength){
+						maxLength = newTP.codeText[i].length;
+					}	
+				}
+				newTP.sizeX = maxLength;
+			}
+
+			//alert(newTP.sizeX.toString()+ " " + newTP.sizeY.toString() + " " + numberOfRows.toString() + " " + numberOfColumns.toString());
+			newTP.yCord = startLocation(newTP.sizeY,numberOfRows);
+			newTP.xCord = startLocation(newTP.sizeX,numberOfColumns);
+
+			if(newTP.xCord > numberOfColumns/2){
+				newTP.xSpeed = Math.floor(Math.random()*-5);
+			} else {
+				newTP.xSpeed = Math.floor(Math.random()*5);
+			}
+			if(newTP.yCord > numberOfRows/2){
+				newTP.ySpeed = Math.floor(Math.random()*-5);
+			} else {
+				newTP.ySpeed = Math.floor(Math.random()*5);
+			}
+
+			newTP.xDir = Math.floor(Math.random() * 20)+10;
+			newTP.yDir = Math.floor(Math.random() * 20)+10;
+			//alert(JSON.stringify(newTP));
+			//newTP = allTPPos[1];
+			return newTP;
+		}
+
+		function checkInFrame(testTP){
+			var testResult = false;
+
+
+			if (testTP.xCord < testTP.sizeX*-1){
+				testResult = true;
+			} 
+			if (testTP.xCord > numberOfColumns){
+				testResult = true;
+			}
+			if (testTP.yCord < testTP.sizeY*-1){
+				testResult = true;
+			}
+			if (testTP.yCord > numberOfRows){
+				testResult = true;
+			}
+
+			return testResult;
+		}
+
+		function nextFrame(elementId){
+
+			backgroundArray.splice(0,1);
+			backgroundArray[backgroundArray.length] = makeRandomCode();
+			elementId.innerHTML = convertToHTML(singleFrame(allTechnoPlasms,backgroundArray));
+			//document.getElementById("cords").innerHTML = "X: " + allTechnoPlasms[0].xCord.toString() + " Y: " + allTechnoPlasms[0].yCord.toString() + " NewTPsCreated: " + newTPsCreated;
+			//alert("test");
+			frame++;
+			if(checkInFrame(allTechnoPlasms[0])){
+				allTechnoPlasms[0] = newTechnoPlasm(allTechnoPlasmsPossible);
+				newTPsCreated++;
+			}
+			//moveTP(0);
+		}
+
+		function animateCode()
+		{	
+			backgroundArray = makeRandomArray();
+			document.getElementById("demo").innerHTML = convertToHTML(backgroundArray);
+			allTechnoPlasms[0] = newTechnoPlasm(allTechnoPlasmsPossible);
+
+			setInterval(function(){
+				nextFrame(document.getElementById("demo"));
+			},100);
+		}
+
+		function addFormat(string,spanFormat){
+			var formatedTextString = "";
+
+			for(var i = 0; i<string.length; i++){
+				formatedTextString = formatedTextString + spanFormat[0] + string.charAt(i) + spanFormat[1];
+			}
+
+			//formatedTextString = spanFormat[0] + string + spanFormat[1];
+
+			return formatedTextString;
+		}
+
+		function singleFrame(tPJSON,mainArray){
+			var redSpan = ["<span style='color:rgb(201,83,83)'>","</span>"];
+			var animatedDisplayText = mainArray.slice();
+			tempString = '';
+			tempTPString = '';
+			span = 'span'.length;
+			var lineInitLength = 0;
+			var tP = [];
+			var x = 0;
+			var y = 0;
+
+			if (scannerState) {
+				redSpan = ["<span style='color:white'>","</span>"];
+			} 
+
+			for(var r = 0; r<tPJSON.length; r++){
+				tP = tPJSON[r].codeText;
+				x = tPJSON[r].xCord;
+				y = tPJSON[r].yCord;
+				for(var i =0; i<tP.length; i++){
+					if (y+i >= 0 && (y+i < numberOfRows)){
+						tempTPString = tP[i];
+						while (tempTPString.substring(0,span) === "span"){
+							lineInitLength += span;
+							tempTPString = tempTPString.substr(span);					
+						}
+						if ((x+tP[i].length)<=numberOfColumns && (x >= 0-lineInitLength)) {
+							tempString = animatedDisplayText[y+i].substr(0,x+lineInitLength) + redSpan[0] + tempTPString + redSpan[1] + animatedDisplayText[y+i].substr(x+tP[i].length);
+						} else if (Math.abs(x)<tP[i].length && x < 0){
+							tempString = redSpan[0] + tempTPString.substr(Math.abs(x)-lineInitLength) + redSpan[1] + animatedDisplayText[y+i].substr(x+tP[i].length);
+						} else if ((x+lineInitLength)>=numberOfColumns || (Math.abs(x)>=tP[i].length && x < 0)) {
+							tempString = animatedDisplayText[y+i];
+						} else {
+							tempString = animatedDisplayText[y+i].substr(0,x+lineInitLength) + redSpan[0] + tempTPString.substr(0, (numberOfColumns-(x+lineInitLength))) + redSpan[1];
+						}
+
+						animatedDisplayText[y+i] = tempString;
+						lineInitLength = 0;
+					}
+				}
+				moveTP(r);
+			}
+			return animatedDisplayText;
+		}
+		
+		
+		animateCode();
+		//singleFrame(helloWorldJava,numberOfColumns-7,5,makeRandomArray());
+		
+	</script>
+
+
+</body>
+</html>

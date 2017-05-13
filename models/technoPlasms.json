@@ -1,0 +1,89 @@
+[{
+	"TPType": "helloWorld",
+	"classLanguage": "C++",
+	"classLevel": 0,
+	"maxInheritance": 0,
+	"defense": 5,
+	"speed": 5,
+	"power": 10,
+	"health": 5,
+	"accuracy": 2,
+	"possibleMoves": [
+		{"moveType": "malloc","levelAvailable":0},
+		{"moveType": "null","levelAvailable":0},
+		{"moveType": "cout","levelAvailable":0},
+		{"moveType": "null","levelAvailable":0},
+		{"moveType": "srand","levelAvailable":4},
+		{"moveType": "abs(int)","levelAvailable":15},
+		{"moveType": "toLower","levelAvailable":32},
+		{"moveType": "unexpected","levelAvailable":45},
+		{"moveType": "get_terminate","levelAvailable":65}
+	]
+},
+{
+	"TPType": "helloWorld",
+	"classLanguage": "Java",
+	"classLevel": 0,
+	"maxInheritance": 0,
+	"defense": 10,
+	"speed": 2,
+	"power": 4,
+	"health": 5,
+	"accuracy": 4,
+	"possibleMoves": [
+		{"moveType": "malloc","levelAvailable":0},
+		{"moveType": "cout","levelAvailable":0},
+		{"moveType": "null","levelAvailable":0},
+		{"moveType": "null","levelAvailable":0},
+		{"moveType": "srand","levelAvailable":4},
+		{"moveType": "abs(int)","levelAvailable":15},
+		{"moveType": "toLower","levelAvailable":32},
+		{"moveType": "unexpected","levelAvailable":45},
+		{"moveType": "get_terminate","levelAvailable":65}
+	] 
+},
+{
+	"TPType": "ArrayList",
+	"classLanguage": "Java",
+	"classLevel": 1,
+	"maxInheritance": 5,
+	"defense": 10,
+	"speed": 2,
+	"power": 4,
+	"health": 5,
+	"accuracy": 4,
+	"possibleMoves": [
+		{"moveType": "malloc","levelAvailable":0},
+		{"moveType": "cout","levelAvailable":0},
+		{"moveType": "null","levelAvailable":0},
+		{"moveType": "null","levelAvailable":0},
+		{"moveType": "srand","levelAvailable":4},
+		{"moveType": "abs(int)","levelAvailable":15},
+		{"moveType": "toLower","levelAvailable":32},
+		{"moveType": "unexpected","levelAvailable":45},
+		{"moveType": "get_terminate","levelAvailable":65}
+	] 
+},
+{
+	"TPType": "drawRect",
+	"classLanguage": "Java",
+	"classLevel": 2,
+	"maxInheritance": 5,
+	"defense": 10,
+	"speed": 2,
+	"power": 4,
+	"health": 5,
+	"accuracy": 4,
+	"possibleMoves": [
+		{"moveType": "malloc","levelAvailable":0},
+		{"moveType": "cout","levelAvailable":0},
+		{"moveType": "null","levelAvailable":0},
+		{"moveType": "null","levelAvailable":0},
+		{"moveType": "srand","levelAvailable":4},
+		{"moveType": "abs(int)","levelAvailable":15},
+		{"moveType": "toLower","levelAvailable":32},
+		{"moveType": "unexpected","levelAvailable":45},
+		{"moveType": "get_terminate","levelAvailable":65}
+	] 
+}
+]
